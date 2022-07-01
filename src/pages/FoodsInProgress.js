@@ -29,6 +29,7 @@ function FoodsInProgress() {
     const idURL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${locationId}`;
     const response = await fetch(idURL);
     const responseJson = await response.json();
+    console.log(responseJson.meals);
     setFoodCard(responseJson.meals);
   };
 
@@ -100,6 +101,28 @@ function FoodsInProgress() {
     } else {
       setFinishBtn(true);
     }
+  };
+
+  const handleFinishRecipe = () => {
+    const storage = JSON.parse(localStorage.getItem('doneRecipes'));
+    const recipe = foodCard[0];
+    let tag = [];
+    if (recipe.strTags !== null) tag = [recipe.strTags];
+    const newObject = {
+      id: recipe.idMeal,
+      type: 'food',
+      nationality: recipe.strArea,
+      category: recipe.strCategory,
+      alcoholicOrNot: '',
+      name: recipe.strMeal,
+      image: recipe.strMealThumb,
+      doneDate: recipe.dateModified,
+      tags: tag,
+    };
+    const finishRecipe = storage?.push(newObject);
+    console.log(finishRecipe);
+    localStorage.setItem('doneRecipes', JSON.stringify(storage));
+    history.push('/done-recipes');
   };
 
   return (
@@ -182,7 +205,7 @@ function FoodsInProgress() {
         type="button"
         data-testid="finish-recipe-btn"
         disabled={ finishBtn }
-        onClick={ () => history.push('/done-recipes') }
+        onClick={ handleFinishRecipe }
         className="finish-button"
       >
         Finish Recipe
