@@ -32,6 +32,8 @@ To achieve this goal, we used methodologies such as **Scrum** and **Kanban**, th
 >
 >React Hooks and Context
 >
+>React Router
+>
 >React Testing Library (RTL)
 
 ## Instructions to check the application
